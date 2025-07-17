@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Edit {{ game.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Game: {{ game.title }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'game_detail' game.id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

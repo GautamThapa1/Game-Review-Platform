@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Add New Game</h1>
+
+  {% if request.user.is_authenticated and request.user.is_superuser %}
+    <p>
+      <a href="{% url 'tag_add' %}">+ Add New Tag</a>
+    </p>
+
+    <h2>Existing Tags</h2>
+    {% if tags %}
+      <ul>
+        {% for tag in tags %}
+          <li>
+            {{ tag.name }}
+            <a href="{% url 'tag_delete' tag.pk %}"
+               onclick="return confirm('Are you sure you want to delete this tag?');"
+               style="color: red; margin-left: 10px;">
+              Delete
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No tags available.</p>
+    {% endif %}
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Add Game</button>
+  </form>
+{% endblock %}

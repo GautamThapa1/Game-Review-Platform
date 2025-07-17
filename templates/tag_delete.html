@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Confirm Delete Tag</h1>
+  <p>Are you sure you want to delete the tag: "{{ object.name }}"?</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+    <a href="{% url 'game_add' %}">Cancel</a>
+  </form>
+{% endblock %}
