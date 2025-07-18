@@ -1,11 +1,8 @@
 from django import forms
-from .models import Game
+from .models import Review
 
 
-class GameForm(forms.ModelForm):
+class ReviewForm(forms.ModelForm):
     class Meta:
-        model = Game
-        fields = ["title", "description", "tags", "image"]  # include all you want
-        widgets = {
-            "tags": forms.CheckboxSelectMultiple(),  # or forms.SelectMultiple()
-        }
+        model = Review
+        fields = ["rating", "comment"]

@@ -14,7 +14,6 @@
 
     <h5>Average Rating: {{ game.average_rating|default:"N/A" }}/5</h5>
 
-    {# Game edit/delete buttons — shown only if user is staff or game creator (optional logic) #}
     {% if request.user.is_staff %}
         <a href="{% url 'game_delete' game.id %}" class="btn btn-danger btn-sm">Delete Game</a>
         <a href="{% url 'game_edit' game.id %}" class="btn btn-primary btn-sm">Edit Game</a>
@@ -23,8 +22,8 @@
     <hr>
 
     <h3>Reviews</h3>
-    {% if game.review_set.all %}
-        {% for review in game.review_set.all %}
+    {% if reviews %}
+        {% for review in reviews %}
             <div class="mb-3 border-bottom pb-2">
                 <strong>{{ review.user.username }}</strong> rated it <strong>{{ review.rating }}/5</strong><br>
                 <p>{{ review.comment }}</p>
@@ -39,6 +38,19 @@
         <p>No reviews yet.</p>
     {% endif %}
 
-    <a href="{% url 'game_list' %}" class="btn btn-secondary mt-3">← Back to All Games</a>
+    <hr>
+
+    {% if user.is_authenticated %}
+        <h3>Add Your Review</h3>
+        <form method="post" action="{% url 'add_review' game.id %}">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button type="submit" class="btn btn-success">Submit Review</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Log in</a> to leave a review.</p>
+    {% endif %}
+
+    <a href="{% url 'game_list' %}" class="btn btn-secondary mt-4">← Back to All Games</a>
 </div>
 {% endblock %}

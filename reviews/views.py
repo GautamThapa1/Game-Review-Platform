@@ -7,8 +7,10 @@ from django.views.generic import (
     CreateView,
 )
 from .models import Game, Review, Tag
-from django.urls import reverse_lazy
-from .forms import Game
+from django.urls import reverse_lazy, reverse
+from .forms import ReviewForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
 
 
 # Create your views here.
@@ -16,16 +18,54 @@ class GameList(ListView):
     model = Game
     template_name = "game_list.html"
 
+    def get_queryset(self):
+        query = self.request.GET.get("searched")
+        if query:
+            return Game.objects.filter(title__icontains=query)
+        return Game.objects.all()
+
 
 class GameDetail(DetailView):
     model = Game
     template_name = "game_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["review_form"] = ReviewForm()  # Name given for understanding
+        context["reviews"] = self.object.review_set.all()
+        return context
+
+
+@login_required
+def add_review(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+
+    # Check if user already reviewed this game
+    existing_review = game.review_set.filter(user=request.user).first()
+    if existing_review:
+        # Option 1: Redirect back with a message, or
+        # Option 2: Update the existing review instead of creating a new one
+        # For now, let's just redirect to game detail without saving duplicate
+        return redirect("game_detail", pk=game.id)
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.game = game
+            review.save()
+    return redirect("game_detail", pk=game.id)
 
 
 class EditReview(UpdateView):
     model = Review
     fields = ["rating", "comment"]
     template_name = "review_edit.html"
+
+    def get_success_url(self):
+        # Redirect to the related game's detail page after saving the review
+        return reverse("game_detail", kwargs={"pk": self.object.game.id})
 
 
 class GameDelete(DeleteView):

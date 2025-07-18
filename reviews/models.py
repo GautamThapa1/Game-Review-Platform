@@ -47,7 +47,10 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("game", "user")
+        unique_together = (
+            "game",
+            "user",
+        )  # only at database level, would not duplicate the reviews
 
     def __str__(self):
         return f"{self.user.username} - {self.game.title}"

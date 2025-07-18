@@ -9,6 +9,7 @@ from .views import (
     GameAdd,
     TagAdd,
     TagDelete,
+    add_review,
 )
 
 urlpatterns = [
@@ -21,4 +22,6 @@ urlpatterns = [
     path("games/add/", GameAdd.as_view(), name="game_add"),
     path("games/add/tagAdd/", TagAdd.as_view(), name="tag_add"),
     path("tags/delete/<int:pk>/", TagDelete.as_view(), name="tag_delete"),
+    path("games/<int:pk>/", GameDetail.as_view(), name="game_detail"),
+    path("games/<int:game_id>/review/add/", add_review, name="add_review"),
 ]
