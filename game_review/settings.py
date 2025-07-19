@@ -130,3 +130,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 # The below line tells where to redirect after successful actions
 LOGIN_REDIRECT_URL = "game_list"
 LOGOUT_REDIRECT_URL = "game_list"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
