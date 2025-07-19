@@ -23,7 +23,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("list/", include("reviews.urls")),
+    # the order of the below two line is necessay as django will look first into accounts auth for signup
+    # and not find it. It will look into accounts app and find it.
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/", include("accounts.urls")),
+    path("", include("reviews.urls")),
 ]
 
 # The line below tells django that while in production use my directory

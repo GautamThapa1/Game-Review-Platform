@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "reviews",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -122,5 +123,10 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# The below line is needed for handling images on local server
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# The below line tells where to redirect after successful actions
+LOGIN_REDIRECT_URL = "game_list"
+LOGOUT_REDIRECT_URL = "game_list"
