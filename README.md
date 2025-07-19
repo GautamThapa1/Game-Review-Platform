@@ -1,6 +1,6 @@
 # 🎮 Game Review Platform
 
-A Django-based web application that allows users to review and rate games. Built with class-based and function-based views, full user authentication, tag filtering, and CRUD features for games and reviews.
+A Django-based web application that allows users to review and rate games. Built with class-based and function-based views, full user authentication, and CRUD features for games and reviews.
 
 ## 🔧 Features
 
