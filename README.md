@@ -25,5 +25,5 @@ A Django-based web application that allows users to review and rate games. Built
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/game-review-platform.git
+git clone https://github.com/GautamThapa1/Game-Review-Platform
 cd game-review-platform
